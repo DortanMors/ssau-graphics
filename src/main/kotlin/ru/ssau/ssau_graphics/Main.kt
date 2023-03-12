@@ -1,10 +1,12 @@
 package ru.ssau.ssau_graphics
 
 import ru.ssau.ssau_graphics.draw.line.*
+import ru.ssau.ssau_graphics.draw.point.drawPoints
 import ru.ssau.ssau_graphics.io.readVCoordinatesFromFile
 import ru.ssau.ssau_graphics.model.*
 import kotlin.math.PI
 import kotlin.math.cos
+import kotlin.math.round
 import kotlin.math.sin
 
 const val extension = "png"
@@ -107,6 +109,29 @@ private fun task2n5(h: Int, w: Int) {
 
 private fun task3(filename: String) = readVCoordinatesFromFile(filename)
 
+private fun task4(h: Int, w: Int, coordinates: List<Coordinate>, color: Color3) {
+    listOf(
+        Task4Params(xMult = 50, xDelta = 500, yMult = 50, yDelta = 500, filename = "task4n1"),
+        Task4Params(xMult = 100, xDelta = 500, yMult = 100, yDelta = 500, filename = "task4n2"),
+        Task4Params(xMult = 500, xDelta = 500, yMult = 500, yDelta = 500, filename = "task4n3"),
+        Task4Params(xMult = 4000, xDelta = 500, yMult = 4000, yDelta = 500, filename = "task4n4"),
+    ).forEach { params ->
+        createImage3(h, w).let { image ->
+            drawPoints(
+                image = image,
+                color = color,
+                points = coordinates.map { point ->
+                    Point2d(
+                        x = round(params.xMult * point.x + params.xDelta).toInt(),
+                        y = round(params.yMult * point.y + params.yDelta).toInt(),
+                    )
+                },
+            )
+            saveImage(image, params.filename)
+        }
+    }
+}
+
 fun main() {
     task1n1(100, 100)
     task1n2(100, 100)
@@ -120,6 +145,7 @@ fun main() {
     task2n5(200, 200)
 
     val coordinates = task3("model_1.obj")
+    task4(1000, 1000, coordinates, Color3(255, 255, 255))
 }
 
 private fun <ColorType> Image<ColorType>.drawSun(
