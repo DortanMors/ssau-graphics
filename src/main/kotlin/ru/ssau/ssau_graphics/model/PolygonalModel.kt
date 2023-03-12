@@ -1,3 +1,5 @@
 package ru.ssau.ssau_graphics.model
 
-class PolygonalModel {}
+class PolygonalModel(
+    val polygons: List<Polygon>
+)
