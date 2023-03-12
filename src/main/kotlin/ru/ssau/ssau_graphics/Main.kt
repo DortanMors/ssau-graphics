@@ -1,6 +1,7 @@
 package ru.ssau.ssau_graphics
 
 import ru.ssau.ssau_graphics.draw.line.*
+import ru.ssau.ssau_graphics.io.readVCoordinatesFromFile
 import ru.ssau.ssau_graphics.model.*
 import kotlin.math.PI
 import kotlin.math.cos
@@ -173,6 +174,8 @@ private fun task2n5(h: Int, w: Int) {
     )
 }
 
+private fun task3(filename: String) = readVCoordinatesFromFile(filename)
+
 fun main() {
     task1n1(100, 100)
     task1n2(100, 100)
@@ -184,6 +187,8 @@ fun main() {
     task2n3(200, 200)
     task2n4(200, 200)
     task2n5(200, 200)
+
+    val coordinates = task3("model_1.obj")
 }
 
 private fun <ColorType> Image<ColorType>.drawSun(
