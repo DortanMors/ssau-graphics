@@ -14,21 +14,21 @@ fun <ColorType> drawPolygonTriangle(
     color: ColorType,
 ) {
     // 1-2 Ограничивающий прямоугольник:
-    val xMin = min(
+    val xMin = max(
         0,
         round(min(min(polygon.v1.x, polygon.v2.x), polygon.v3.x)).toInt(),
     )
-    val yMin = min(
+    val yMin = max(
         0,
         round(min(min(polygon.v1.y, polygon.v2.y), polygon.v3.y)).toInt(),
     )
 
-    val xMax = max(
-        image.width,
+    val xMax = min(
+        image.width - 1,
         round(max(max(polygon.v1.x, polygon.v2.x), polygon.v3.x)).toInt(),
     )
-    val yMax = max(
-        image.height,
+    val yMax = min(
+        image.height - 1,
         round(max(max(polygon.v1.y, polygon.v2.y), polygon.v3.y)).toInt(),
     )
 

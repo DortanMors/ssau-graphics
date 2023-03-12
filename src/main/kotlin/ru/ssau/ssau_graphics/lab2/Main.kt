@@ -21,22 +21,35 @@ private fun task8n1() {
     }
 }
 
-private fun task9n1(h: Int = 100, w: Int = 100) {
-    val image = createImage3(h, w)
-    val polygon = Polygon(
-        v1 = Coordinate(0.0, 0.0, 0.0),
-        v2 = Coordinate(47.0, 10.0, 99.0),
-        v3 = Coordinate(22.0, 22.0, 22.0),
-    )
-    drawPolygonTriangle(
-        image,
-        polygon,
-        Color3(255, 255, 255),
-    )
-    saveImage(image, "task9n1")
+private fun task10n1(h: Int = 100, w: Int = 100) {
+    listOf(
+        Polygon(
+            v1 = Coordinate(0.0, 0.0, 0.0),
+            v2 = Coordinate(47.0, 10.0, 99.0),
+            v3 = Coordinate(22.0, 22.0, 22.0),
+        ),
+        Polygon(
+            v1 = Coordinate(-10.0, -10.0, 0.0),
+            v2 = Coordinate(-47.0, 10.0, 99.0),
+            v3 = Coordinate(99.0, 101.0, 22.0),
+        ),
+        Polygon(
+            v1 = Coordinate(10.0, 10.0, 0.0),
+            v2 = Coordinate(47.0, -10.0, -99.0),
+            v3 = Coordinate(-99.0, -120.0, -22.0),
+        ),
+    ).forEachIndexed { i, polygon ->
+        val image = createImage3(h, w)
+        drawPolygonTriangle(
+            image,
+            polygon,
+            Color3(255, 255, 255),
+        )
+        saveImage(image, "task10n$i")
+    }
 }
 
 fun main() {
     task8n1()
-    task9n1()
+    task10n1()
 }
