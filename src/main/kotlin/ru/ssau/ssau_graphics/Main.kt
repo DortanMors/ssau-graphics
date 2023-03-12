@@ -88,20 +88,8 @@ private fun task2n1(h: Int, w: Int, deltaT: Double) {
 
 private fun task2n2(h: Int, w: Int, deltaT: Double) {
     val simpleLine = SimpleLine<Color3>(deltaT = deltaT)
-    val image = Image(
-        height = h,
-        width = w,
-        matrix = Array(h * w) {
-            Color3(0, 0, 0)
-        },
-    )
-    val start = Point2d(100, 100)
-    image.drawSun(
-        lineDrawer = simpleLine,
-        color = Color3(255, 255, 255),
-        start = start,
-        radius = 95.0,
-    )
+    val image = createImage3(h, w)
+    testSun(image, simpleLine)
     val renderer = Renderer(formatName = extension)
     renderer.writeToFileTriple(
         image = image,
@@ -111,19 +99,8 @@ private fun task2n2(h: Int, w: Int, deltaT: Double) {
 
 private fun task2n3(h: Int, w: Int) {
     val simpleLine = ImprovementSimple<Color3>()
-    val image = Image(
-        height = h,
-        width = w,
-        matrix = Array(h * w) {
-            Color3(0, 0, 0)
-        },
-    )
-    image.drawSun(
-        lineDrawer = simpleLine,
-        color = Color3(255, 255, 255),
-        start = Point2d(100, 100),
-        radius = 95.0,
-    )
+    val image = createImage3(h, w)
+    testSun(image, simpleLine)
     val renderer = Renderer(formatName = extension)
     renderer.writeToFileTriple(
         image = image,
@@ -133,19 +110,8 @@ private fun task2n3(h: Int, w: Int) {
 
 private fun task2n4(h: Int, w: Int) {
     val simpleLine = Anysotropic<Color3>()
-    val image = Image(
-        height = h,
-        width = w,
-        matrix = Array(h * w) {
-            Color3(0, 0, 0)
-        },
-    )
-    image.drawSun(
-        lineDrawer = simpleLine,
-        color = Color3(255, 255, 255),
-        start = Point2d(100, 100),
-        radius = 95.0,
-    )
+    val image = createImage3(h, w)
+    testSun(image, simpleLine)
     val renderer = Renderer(formatName = extension)
     renderer.writeToFileTriple(
         image = image,
@@ -154,19 +120,8 @@ private fun task2n4(h: Int, w: Int) {
 }
 private fun task2n5(h: Int, w: Int) {
     val simpleLine = AnysotropicImprovement<Color3>()
-    val image = Image(
-        height = h,
-        width = w,
-        matrix = Array(h * w) {
-            Color3(0, 0, 0)
-        },
-    )
-    image.drawSun(
-        lineDrawer = simpleLine,
-        color = Color3(255, 255, 255),
-        start = Point2d(100, 100),
-        radius = 95.0,
-    )
+    val image = createImage3(h, w)
+    testSun(image, simpleLine)
     val renderer = Renderer(formatName = extension)
     renderer.writeToFileTriple(
         image = image,
@@ -210,3 +165,29 @@ private fun <ColorType> Image<ColorType>.drawSun(
         )
     }
 }
+
+private fun testSun(image: Image<Color3>, drawer: DrawLine<Color3>) {
+    image.drawSun(
+        lineDrawer = drawer,
+        color = Color3(255, 255, 255),
+        start = Point2d(100, 100),
+        radius = 95.0,
+    )
+}
+
+private fun createImage3(h: Int, w: Int): Image<Color3> =
+    Image(
+        height = h,
+        width = w,
+        matrix = Array(h * w) {
+            Color3(0, 0, 0)
+        },
+    )
+
+data class Task4Params(
+    val xMult: Int,
+    val xDelta: Int,
+    val yMult: Int,
+    val yDelta: Int,
+    val filename: String,
+)
