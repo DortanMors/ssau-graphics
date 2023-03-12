@@ -73,3 +73,6 @@ fun readModelFromFile(coordinates: List<Coordinate>, filename: String): Polygona
     }
     return PolygonalModel(polygons)
 }
+
+fun readPolygonalModelFromFile(filename: String): PolygonalModel =
+    readModelFromFile(readVCoordinatesFromFile(filename), filename)
