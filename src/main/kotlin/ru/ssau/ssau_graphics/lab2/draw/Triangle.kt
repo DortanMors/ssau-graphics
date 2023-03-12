@@ -42,3 +42,43 @@ fun <ColorType> drawPolygonTriangle(
         }
     }
 }
+
+fun <ColorType> drawPolygonTriangleWithZ(
+    image: Image<ColorType>,
+    zImage: Image<Double>,
+    polygon: Polygon,
+    color: ColorType,
+) {
+    // 1-2 Ограничивающий прямоугольник:
+    val xMin = max(
+        0,
+        round(min(min(polygon.v1.x, polygon.v2.x), polygon.v3.x)).toInt(),
+    )
+    val yMin = max(
+        0,
+        round(min(min(polygon.v1.y, polygon.v2.y), polygon.v3.y)).toInt(),
+    )
+
+    val xMax = min(
+        image.width - 1,
+        round(max(max(polygon.v1.x, polygon.v2.x), polygon.v3.x)).toInt(),
+    )
+    val yMax = min(
+        image.height - 1,
+        round(max(max(polygon.v1.y, polygon.v2.y), polygon.v3.y)).toInt(),
+    )
+
+    // 3
+    for (x in xMin..xMax) {
+        for (y in yMin..yMax) {
+            val barCords = toBarycentric(polygon, Point2d(x, y))
+            if (barCords.x > 0 && barCords.y > 0 && barCords.z > 0) {
+                val zFlex = barCords.x * polygon.v1.z + barCords.y * polygon.v2.z + barCords.z * polygon.v3.z
+                if (zFlex < zImage[x, y]) {
+                    image[x, y] = color
+                    zImage[x, y] = zFlex
+                }
+            }
+        }
+    }
+}
