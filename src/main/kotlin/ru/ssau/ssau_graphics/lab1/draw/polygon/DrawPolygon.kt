@@ -1,9 +1,9 @@
-package ru.ssau.ssau_graphics.draw.polygon
+package ru.ssau.ssau_graphics.lab1.draw.polygon
 
-import ru.ssau.ssau_graphics.draw.line.DrawLine
-import ru.ssau.ssau_graphics.model.Image
-import ru.ssau.ssau_graphics.model.Point2d
-import ru.ssau.ssau_graphics.model.Polygon
+import ru.ssau.ssau_graphics.lab1.draw.line.DrawLine
+import ru.ssau.ssau_graphics.lab1.model.Image
+import ru.ssau.ssau_graphics.lab1.model.Point2d
+import ru.ssau.ssau_graphics.lab1.model.Polygon
 import kotlin.math.round
 
 fun <ColorType> drawPolygonXY(

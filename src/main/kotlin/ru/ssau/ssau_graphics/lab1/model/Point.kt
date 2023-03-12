@@ -1,4 +1,4 @@
-package ru.ssau.ssau_graphics.model
+package ru.ssau.ssau_graphics.lab1.model
 
 data class Point2d(
     val x: Int,

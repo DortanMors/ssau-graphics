@@ -1,8 +1,8 @@
-package ru.ssau.ssau_graphics.io
+package ru.ssau.ssau_graphics.lab1.io
 
-import ru.ssau.ssau_graphics.model.Coordinate
-import ru.ssau.ssau_graphics.model.Polygon
-import ru.ssau.ssau_graphics.model.PolygonalModel
+import ru.ssau.ssau_graphics.lab1.model.Coordinate
+import ru.ssau.ssau_graphics.lab1.model.Polygon
+import ru.ssau.ssau_graphics.lab1.model.PolygonalModel
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader

@@ -1,11 +1,11 @@
-package ru.ssau.ssau_graphics
+package ru.ssau.ssau_graphics.lab1
 
-import ru.ssau.ssau_graphics.draw.line.*
-import ru.ssau.ssau_graphics.draw.point.drawPoints
-import ru.ssau.ssau_graphics.draw.polygon.drawPolygonXY
-import ru.ssau.ssau_graphics.io.readModelFromFile
-import ru.ssau.ssau_graphics.io.readVCoordinatesFromFile
-import ru.ssau.ssau_graphics.model.*
+import ru.ssau.ssau_graphics.lab1.draw.line.*
+import ru.ssau.ssau_graphics.lab1.draw.point.drawPoints
+import ru.ssau.ssau_graphics.lab1.draw.polygon.drawPolygonXY
+import ru.ssau.ssau_graphics.lab1.io.readModelFromFile
+import ru.ssau.ssau_graphics.lab1.io.readVCoordinatesFromFile
+import ru.ssau.ssau_graphics.lab1.model.*
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.round

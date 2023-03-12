@@ -1,7 +1,7 @@
-package ru.ssau.ssau_graphics.draw.point
+package ru.ssau.ssau_graphics.lab1.draw.point
 
-import ru.ssau.ssau_graphics.model.Image
-import ru.ssau.ssau_graphics.model.Point2d
+import ru.ssau.ssau_graphics.lab1.model.Image
+import ru.ssau.ssau_graphics.lab1.model.Point2d
 
 fun <ColorType> drawPoints(image: Image<ColorType>, points: List<Point2d>, color: ColorType) {
     points.forEach { point ->

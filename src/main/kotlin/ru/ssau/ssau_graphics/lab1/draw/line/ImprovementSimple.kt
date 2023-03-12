@@ -1,7 +1,7 @@
-package ru.ssau.ssau_graphics.draw.line
+package ru.ssau.ssau_graphics.lab1.draw.line
 
-import ru.ssau.ssau_graphics.model.Image
-import ru.ssau.ssau_graphics.model.Point2d
+import ru.ssau.ssau_graphics.lab1.model.Image
+import ru.ssau.ssau_graphics.lab1.model.Point2d
 
 class ImprovementSimple<ColorType>(
     private val deltaT: Double = 1.0,
