@@ -6,12 +6,13 @@ import ru.ssau.ssau_graphics.lab1.draw.polygon.drawPolygonXY
 import ru.ssau.ssau_graphics.lab1.io.readModelFromFile
 import ru.ssau.ssau_graphics.lab1.io.readVCoordinatesFromFile
 import ru.ssau.ssau_graphics.lab1.model.*
+import ru.ssau.ssau_graphics.utils.createImage3
+import ru.ssau.ssau_graphics.utils.extension
+import ru.ssau.ssau_graphics.utils.saveImage
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.round
 import kotlin.math.sin
-
-const val extension = "png"
 
 private fun task1n1(h: Int, w: Int) {
     val image = Image(
@@ -168,23 +169,6 @@ fun main() {
     task4(1000, 1000, coordinates, Color3(255, 255, 255))
     val model = task5n1("model_1.obj", coordinates)
     task6(1000, 1000, model, Color3(255, 255, 255))
-
-//    val drawer = AnysotropicImprovement<Color3>()
-//    val image = createImage3(15, 15)
-//    val polygon = Polygon(
-//        v1 = Coordinate(1.0, 1.0, 1.0),
-//        v2 = Coordinate(10.0, 10.0, 10.0),
-//        v3 = Coordinate(3.0, 5.0, 5.0),
-//    )
-//    drawPolygonXY(
-//        image = image,
-//        polygon = polygon,
-//        drawer = drawer,
-//        color = Color3(255, 255, 255),
-//        xMult = 1, xDelta = 0, yMult = 1, yDelta = 0,
-//    )
-//    saveImage(image, "test")
-
 }
 
 private fun <ColorType> Image<ColorType>.drawSun(
@@ -215,21 +199,6 @@ private fun testSun(image: Image<Color3>, drawer: DrawLine<Color3>) {
         radius = 95.0,
     )
 }
-
-private fun createImage3(h: Int, w: Int): Image<Color3> =
-    Image(
-        height = h,
-        width = w,
-        matrix = Array(h * w) {
-            Color3(0, 0, 0)
-        },
-    )
-
-fun saveImage(image: Image<Color3>, name: String) =
-    Renderer(formatName = extension).writeToFileTriple(
-        image = image,
-        filename = "$name.$extension",
-    )
 
 data class Task4Params(
     val xMult: Int,
