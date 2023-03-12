@@ -2,6 +2,8 @@ package ru.ssau.ssau_graphics
 
 import ru.ssau.ssau_graphics.draw.line.*
 import ru.ssau.ssau_graphics.draw.point.drawPoints
+import ru.ssau.ssau_graphics.draw.polygon.drawPolygonXY
+import ru.ssau.ssau_graphics.io.readModelFromFile
 import ru.ssau.ssau_graphics.io.readVCoordinatesFromFile
 import ru.ssau.ssau_graphics.model.*
 import kotlin.math.PI
@@ -132,6 +134,24 @@ private fun task4(h: Int, w: Int, coordinates: List<Coordinate>, color: Color3) 
     }
 }
 
+private fun task5n1(inputName: String, coordinates: List<Coordinate>): PolygonalModel =
+    readModelFromFile(coordinates, inputName)
+
+private fun task6(h: Int, w: Int, model: PolygonalModel, color: Color3) {
+    val drawer = AnysotropicImprovement<Color3>()
+    val image = createImage3(h, w)
+    model.polygons.forEach { polygon ->
+        drawPolygonXY(
+            image = image,
+            polygon = polygon,
+            drawer = drawer,
+            color = color,
+            xMult = 5000, xDelta = 500, yMult = 5000, yDelta = 500,
+        )
+    }
+    saveImage(image, "task6")
+}
+
 fun main() {
     task1n1(100, 100)
     task1n2(100, 100)
@@ -146,6 +166,25 @@ fun main() {
 
     val coordinates = task3("model_1.obj")
     task4(1000, 1000, coordinates, Color3(255, 255, 255))
+    val model = task5n1("model_1.obj", coordinates)
+    task6(1000, 1000, model, Color3(255, 255, 255))
+
+//    val drawer = AnysotropicImprovement<Color3>()
+//    val image = createImage3(15, 15)
+//    val polygon = Polygon(
+//        v1 = Coordinate(1.0, 1.0, 1.0),
+//        v2 = Coordinate(10.0, 10.0, 10.0),
+//        v3 = Coordinate(3.0, 5.0, 5.0),
+//    )
+//    drawPolygonXY(
+//        image = image,
+//        polygon = polygon,
+//        drawer = drawer,
+//        color = Color3(255, 255, 255),
+//        xMult = 1, xDelta = 0, yMult = 1, yDelta = 0,
+//    )
+//    saveImage(image, "test")
+
 }
 
 private fun <ColorType> Image<ColorType>.drawSun(
