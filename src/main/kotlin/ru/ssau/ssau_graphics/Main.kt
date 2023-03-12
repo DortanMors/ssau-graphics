@@ -41,11 +41,7 @@ private fun task1n3(h: Int, w: Int) {
         width = w,
         matrix = Array(h * w) { Color3(255, 0, 0) },
     )
-    val renderer = Renderer(formatName = extension)
-    renderer.writeToFileTriple(
-        image = image,
-        filename = "task1n3.$extension",
-    )
+    saveImage(image, "task1n3")
 }
 
 private fun task1n4(h: Int, w: Int) {
@@ -79,54 +75,34 @@ private fun task2n1(h: Int, w: Int, deltaT: Double) {
         Point2d(w, h),
         Color3(255, 0, 0),
     )
-    val renderer = Renderer(formatName = extension)
-    renderer.writeToFileTriple(
-        image = image,
-        filename = "task2n1.$extension",
-    )
+    saveImage(image, "task2n1")
 }
 
 private fun task2n2(h: Int, w: Int, deltaT: Double) {
     val simpleLine = SimpleLine<Color3>(deltaT = deltaT)
     val image = createImage3(h, w)
     testSun(image, simpleLine)
-    val renderer = Renderer(formatName = extension)
-    renderer.writeToFileTriple(
-        image = image,
-        filename = "task2n2.$extension",
-    )
+    saveImage(image, "task2n2")
 }
 
 private fun task2n3(h: Int, w: Int) {
     val simpleLine = ImprovementSimple<Color3>()
     val image = createImage3(h, w)
     testSun(image, simpleLine)
-    val renderer = Renderer(formatName = extension)
-    renderer.writeToFileTriple(
-        image = image,
-        filename = "task2n3.$extension",
-    )
+    saveImage(image, "task2n3")
 }
 
 private fun task2n4(h: Int, w: Int) {
     val simpleLine = Anysotropic<Color3>()
     val image = createImage3(h, w)
     testSun(image, simpleLine)
-    val renderer = Renderer(formatName = extension)
-    renderer.writeToFileTriple(
-        image = image,
-        filename = "task2n4.$extension",
-    )
+    saveImage(image, "task2n4")
 }
 private fun task2n5(h: Int, w: Int) {
     val simpleLine = AnysotropicImprovement<Color3>()
     val image = createImage3(h, w)
     testSun(image, simpleLine)
-    val renderer = Renderer(formatName = extension)
-    renderer.writeToFileTriple(
-        image = image,
-        filename = "task2n5.$extension",
-    )
+    saveImage(image, "task2n5")
 }
 
 private fun task3(filename: String) = readVCoordinatesFromFile(filename)
@@ -182,6 +158,12 @@ private fun createImage3(h: Int, w: Int): Image<Color3> =
         matrix = Array(h * w) {
             Color3(0, 0, 0)
         },
+    )
+
+fun saveImage(image: Image<Color3>, name: String) =
+    Renderer(formatName = extension).writeToFileTriple(
+        image = image,
+        filename = "$name.$extension",
     )
 
 data class Task4Params(
