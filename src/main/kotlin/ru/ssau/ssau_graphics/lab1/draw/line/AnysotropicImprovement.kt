@@ -47,9 +47,9 @@ class AnysotropicImprovement<ColorType>(
             val t = (x - x0) / (x1 - x0)
             var y = y0 * (1 - t) + y1 * t
             if (steep) {
-                image[y.toInt(), x.toInt()] = color
-            } else {
                 image[x.toInt(), y.toInt()] = color
+            } else {
+                image[y.toInt(), x.toInt()] = color
             }
             error += dError
             if (error > eps) {

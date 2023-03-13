@@ -11,7 +11,7 @@ class ImprovementSimple<ColorType>(
         while (x <= endPoint.x) {
             val t = (x - startPoint.x) / (endPoint.x - startPoint.x)
             val y = startPoint.y * (1 - t) + endPoint.y * t
-            image[x.toInt(), y.toInt()] = color
+            image[y.toInt(), x.toInt()] = color
             x += deltaT
         }
     }

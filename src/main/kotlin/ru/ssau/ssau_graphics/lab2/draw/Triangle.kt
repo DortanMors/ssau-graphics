@@ -37,7 +37,7 @@ fun <ColorType> drawPolygonTriangle(
         for (y in yMin..yMax) {
             val barCords = toBarycentric(polygon, Point2d(x, y))
             if (barCords.x > 0 && barCords.y > 0 && barCords.z > 0) {
-                image[x, y] = color
+                image[y, x] = color
             }
         }
     }
@@ -74,9 +74,9 @@ fun <ColorType> drawPolygonTriangleWithZ(
             val barCords = toBarycentric(polygon, Point2d(x, y))
             if (barCords.x > 0 && barCords.y > 0 && barCords.z > 0) {
                 val zFlex = barCords.x * polygon.v1.z + barCords.y * polygon.v2.z + barCords.z * polygon.v3.z
-                if (zFlex < zImage[x, y]) {
-                    image[x, y] = color
-                    zImage[x, y] = zFlex
+                if (zFlex < zImage[y, x]) {
+                    image[y, x] = color
+                    zImage[y, x] = zFlex
                 }
             }
         }

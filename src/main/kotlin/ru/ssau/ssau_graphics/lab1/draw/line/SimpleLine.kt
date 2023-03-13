@@ -11,7 +11,7 @@ class SimpleLine<ColorType>(
         while (t < 1.0) {
             val x = (startPoint.x * (1 - t) + endPoint.x * t).toInt()
             val y = (startPoint.y * (1 - t) + endPoint.y * t).toInt()
-            image[x, y] = color
+            image[y, x] = color
             t += deltaT
         }
     }
