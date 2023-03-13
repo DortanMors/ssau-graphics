@@ -151,11 +151,11 @@ fun task15n1(model: PolygonalModel, h: Int = 1000, w: Int = 1000, xMult: Int = 5
 
 fun main() {
     val modelName = "model_1.obj"
-//    task8n1()
-//    task10n1()
+    task8n1()
+    task10n1()
     val model = readPolygonalModelFromFile(modelName)
-//    task11n1(model)
-//    task13n1(model)
-//    task14n1(model)
+    task11n1(model)
+    task13n1(model)
+    task14n1(model)
     task15n1(model)
 }
