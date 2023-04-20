@@ -51,6 +51,7 @@ fun <ColorType> drawPolygonTriangleWithZ(
     zImage: Image<Double>,
     polygon: Polygon,
     color: ColorType,
+    guroNormal: Coordinate? = null
 ) {
     // 1-2 Ограничивающий прямоугольник:
     val xMin = max(

@@ -10,6 +10,7 @@ import java.io.FileReader
 const val CoordinateDimension = 3
 const val CoordinateDelimiter = " "
 const val CoordinatePrefix = "v$CoordinateDelimiter"
+const val NormalPrefix = "vn$CoordinateDelimiter"
 
 const val PolygonDelimiter = "/"
 
@@ -39,39 +40,46 @@ fun readModelFromFileSplit(coordinates: List<Coordinate>, filename: String): Pol
 fun readModelFromFile(coordinates: List<Coordinate>, filename: String): PolygonalModel {
     val polygons = mutableListOf<Polygon>()
     val words = mutableListOf<String>()
+    val normals = mutableListOf<Coordinate?>()
     for (line in File(filename).readLines()) {
-        if (line[0] == 'f') {
-            var i: Int = 1
-            for (k in 0..2) {
-                words.add("")
-                i++
-                while (line[i] != '/') { //считываем 3 слова, занося первое в words
-                    words[k] = words[k] + line[i]
+        when {
+            line[0] == 'f' -> {
+                var i: Int = 1
+                for (k in 0..2) {
+                    words.add("")
                     i++
-                }
-                i++ // минуем '/'
-                while (line[i] != '/') {
-                    i++
-                }
-                i++ // минуем '/'
-                while (line[i] != ' ') {
-                    i++
-                    if (i == line.length) {
-                        break
+                    while (line[i] != '/') { //считываем 3 слова, занося первое в words
+                        words[k] = words[k] + line[i]
+                        i++
+                    }
+                    i++ // минуем '/'
+                    while (line[i] != '/') {
+                        i++
+                    }
+                    i++ // минуем '/'
+                    while (line[i] != ' ') {
+                        i++
+                        if (i == line.length) {
+                            break
+                        }
                     }
                 }
-            }
-            polygons.add(
-                Polygon(
-                    coordinates[words[0].toInt() - 1],
-                    coordinates[words[1].toInt() - 1],
-                    coordinates[words[2].toInt() - 1],
+                polygons.add(
+                    Polygon(
+                        coordinates[words[0].toInt() - 1],
+                        coordinates[words[1].toInt() - 1],
+                        coordinates[words[2].toInt() - 1],
+                    )
                 )
-            )
-            words.clear()
+                words.clear()
+            }
+            line.startsWith(NormalPrefix) -> {
+                val (x, y, z) = line.split(" ").apply { drop(1) }.map { it.toDouble() }
+                normals.add(Coordinate(x, y, z))
+            }
         }
     }
-    return PolygonalModel(polygons)
+    return PolygonalModel(polygons, normals.toTypedArray())
 }
 
 fun readPolygonalModelFromFile(filename: String): PolygonalModel =
