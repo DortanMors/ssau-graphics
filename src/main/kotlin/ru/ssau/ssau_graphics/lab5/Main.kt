@@ -9,7 +9,6 @@ import ru.ssau.ssau_graphics.lab2.math.findNormal
 import ru.ssau.ssau_graphics.lab2.math.normalizedScalarMult
 import ru.ssau.ssau_graphics.utils.createImage3
 import ru.ssau.ssau_graphics.utils.saveImage
-import kotlin.math.abs
 
 fun main() {
     val modelName = "model_1.obj"

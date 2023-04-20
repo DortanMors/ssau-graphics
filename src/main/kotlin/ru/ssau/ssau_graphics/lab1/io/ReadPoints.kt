@@ -11,6 +11,7 @@ const val CoordinateDimension = 3
 const val CoordinateDelimiter = " "
 const val CoordinatePrefix = "v$CoordinateDelimiter"
 const val NormalPrefix = "vn$CoordinateDelimiter"
+const val PolygonPrefix = "f$CoordinateDelimiter"
 
 const val PolygonDelimiter = "/"
 
@@ -28,60 +29,63 @@ fun readVCoordinatesFromFile(filename: String): List<Coordinate> =
         }.getOrDefault(emptyList())
     }
 
-fun readModelFromFileSplit(coordinates: List<Coordinate>, filename: String): PolygonalModel {
-    val polygons = mutableListOf<Polygon>()
-    File(filename).readLines().forEach { line ->
-        val vertexIndices = line.split(CoordinateDelimiter).takeLast(3)
-            .map { triple -> triple.split(PolygonDelimiter).first().toInt() }
-    }
-    return PolygonalModel(polygons)
-}
-
 fun readModelFromFile(coordinates: List<Coordinate>, filename: String): PolygonalModel {
-    val polygons = mutableListOf<Polygon>()
-    val words = mutableListOf<String>()
     val lines = File(filename).readLines()
     val normals: List<Coordinate>? = lines.filter { it.startsWith(NormalPrefix) }.map { line ->
         val (x, y, z) = line.split(CoordinateDelimiter).drop(1).map { it.toDouble() }
         Coordinate(x, y, z)
     }.takeIf { it.isNotEmpty() }
-    for (line in lines) {
-        when {
-            line[0] == 'f' -> {
-                var i: Int = 1
-                for (k in 0..2) {
-                    words.add("")
-                    i++
-                    while (line[i] != '/') { //считываем 3 слова, занося первое в words
-                        words[k] = words[k] + line[i]
-                        i++
-                    }
-                    i++ // минуем '/'
-                    while (line[i] != '/') {
-                        i++
-                    }
-                    i++ // минуем '/'
-                    while (line[i] != ' ') {
-                        i++
-                        if (i == line.length) {
-                            break
-                        }
-                    }
-                }
-                polygons.add(
-                    Polygon(
-                        v1 = coordinates[words[0].toInt() - 1],
-                        v2 = coordinates[words[1].toInt() - 1],
-                        v3 = coordinates[words[2].toInt() - 1],
-                        n1 = normals?.getOrNull(words[0].toInt() - 1),
-                        n2 = normals?.getOrNull(words[1].toInt() - 1),
-                        n3 = normals?.getOrNull(words[2].toInt() - 1),
-                    )
-                )
-                words.clear()
-            }
+    val polygons = lines.filter { it.startsWith(PolygonPrefix) }.map { line ->
+        val vertexToNormal = line.trim().split(CoordinateDelimiter).drop(1).map { element ->
+            val indices = element.split(PolygonDelimiter)
+            coordinates[indices[0].toInt() - 1] to indices.getOrNull(2)?.toInt()?.let { normals?.getOrNull(it - 1) }
         }
+        Polygon(
+            v1 = vertexToNormal[0].first,
+            v2 = vertexToNormal[1].first,
+            v3 = vertexToNormal[2].first,
+            n1 = vertexToNormal[0].second,
+            n2 = vertexToNormal[1].second,
+            n3 = vertexToNormal[2].second,
+        )
     }
+//    for (line in lines) {
+//        when {
+//            line.getOrNull(0) == 'f' -> {
+//                var i: Int = 1
+//                for (k in 0..2) {
+//                    words.add("")
+//                    i++
+//                    while (line[i] != '/') { //считываем 3 слова, занося первое в words
+//                        words[k] = words[k] + line[i]
+//                        i++
+//                    }
+//                    i++ // минуем '/'
+//                    while (line[i] != '/') {
+//                        i++
+//                    }
+//                    i++ // минуем '/'
+//                    while (line[i] != ' ') {
+//                        i++
+//                        if (i == line.length) {
+//                            break
+//                        }
+//                    }
+//                }
+//                polygons.add(
+//                    Polygon(
+//                        v1 = coordinates[words[0].toInt() - 1],
+//                        v2 = coordinates[words[1].toInt() - 1],
+//                        v3 = coordinates[words[2].toInt() - 1],
+//                        n1 = normals?.getOrNull(words[0].toInt() - 1),
+//                        n2 = normals?.getOrNull(words[1].toInt() - 1),
+//                        n3 = normals?.getOrNull(words[2].toInt() - 1),
+//                    )
+//                )
+//                words.clear()
+//            }
+//        }
+//    }
     return PolygonalModel(polygons)
 }
 
