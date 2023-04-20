@@ -38,3 +38,5 @@ operator fun Matrix.times(right: Matrix): Matrix {
         }
     }
 }
+
+infix fun Coordinate.dot(right: Coordinate): Double = x * right.x + y * right.y + z * right.z

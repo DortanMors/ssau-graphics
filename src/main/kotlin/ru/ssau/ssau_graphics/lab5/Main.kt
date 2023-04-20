@@ -25,9 +25,9 @@ fun task17n1(model: PolygonalModel, h: Int, w: Int) {
     val image = createImage3(h, w)
     val zMatrix = Image(h, w, Array(h * w) { Double.POSITIVE_INFINITY })
     val lightDirection = Coordinate(1.0, 0.0, 1.0)
-    model.polygons.zip(model.guroNormals ?: Array<Coordinate?>(model.polygons.size) { null }.asList())
-        .filter { (polygon, _) -> normalizedScalarMult(findNormal(polygon), lightDirection) > 0 } // отсеивание задней стороны
-        .forEach { (polygon, guroNormal) ->
+    model.polygons
+        .filter { polygon -> normalizedScalarMult(findNormal(polygon), lightDirection) > 0 } // отсеивание задней стороны
+        .forEach { polygon ->
             val shadow = abs(normalizedScalarMult(findNormal(polygon), lightDirection))
             drawPolygonTriangleWithZ(
                 image,
@@ -38,7 +38,7 @@ fun task17n1(model: PolygonalModel, h: Int, w: Int) {
                     255,
                     0,
                 ),
-                guroNormal = guroNormal,
+                light = lightDirection,
             ) // отрисовка полигона с z-буффером
         }
     saveImage(image, "task17n1")

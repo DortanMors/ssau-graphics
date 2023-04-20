@@ -40,8 +40,12 @@ fun readModelFromFileSplit(coordinates: List<Coordinate>, filename: String): Pol
 fun readModelFromFile(coordinates: List<Coordinate>, filename: String): PolygonalModel {
     val polygons = mutableListOf<Polygon>()
     val words = mutableListOf<String>()
-    val normals = mutableListOf<Coordinate?>()
-    for (line in File(filename).readLines()) {
+    val lines = File(filename).readLines()
+    val normals: List<Coordinate>? = lines.filter { it.startsWith(NormalPrefix) }.map { line ->
+        val (x, y, z) = line.split(CoordinateDelimiter).drop(1).map { it.toDouble() }
+        Coordinate(x, y, z)
+    }.takeIf { it.isNotEmpty() }
+    for (line in lines) {
         when {
             line[0] == 'f' -> {
                 var i: Int = 1
@@ -66,20 +70,19 @@ fun readModelFromFile(coordinates: List<Coordinate>, filename: String): Polygona
                 }
                 polygons.add(
                     Polygon(
-                        coordinates[words[0].toInt() - 1],
-                        coordinates[words[1].toInt() - 1],
-                        coordinates[words[2].toInt() - 1],
+                        v1 = coordinates[words[0].toInt() - 1],
+                        v2 = coordinates[words[1].toInt() - 1],
+                        v3 = coordinates[words[2].toInt() - 1],
+                        n1 = normals?.getOrNull(words[0].toInt() - 1),
+                        n2 = normals?.getOrNull(words[1].toInt() - 1),
+                        n3 = normals?.getOrNull(words[2].toInt() - 1),
                     )
                 )
                 words.clear()
             }
-            line.startsWith(NormalPrefix) -> {
-                val (x, y, z) = line.split(" ").drop(1).map { it.toDouble() }
-                normals.add(Coordinate(x, y, z))
-            }
         }
     }
-    return PolygonalModel(polygons, normals)
+    return PolygonalModel(polygons)
 }
 
 fun readPolygonalModelFromFile(filename: String): PolygonalModel =
