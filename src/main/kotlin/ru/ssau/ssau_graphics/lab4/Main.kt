@@ -21,7 +21,7 @@ fun main() {
 
 fun task15n2(model: PolygonalModel, h: Int, w: Int) {
     val image = createImage3(h, w)
-    val zMatrix = Image(h, w, Array(h * w) { 10000.0 })
+    val zMatrix = Image(h, w, Array(h * w) { 10000000.0 })
     val lightDirection = Coordinate(1.0, 0.0, 1.0)
     model.polygons
         .filter { polygon -> normalizedScalarMult(findNormal(polygon), lightDirection) < 0 } // отсеивание задней стороны

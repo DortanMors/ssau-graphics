@@ -98,7 +98,7 @@ fun Coordinate.scale(
     return Coordinate(
         x = result[0] / result[2],
         y = result[1] / result[2],
-        z = z * 3000,
+        z = z * 1600,
     )
 }
 
