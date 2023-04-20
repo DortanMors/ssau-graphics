@@ -1,8 +1,13 @@
 package ru.ssau.ssau_graphics.lab2.draw
 
-import ru.ssau.ssau_graphics.lab1.model.Image
-import ru.ssau.ssau_graphics.lab1.model.Point2d
-import ru.ssau.ssau_graphics.lab1.model.Polygon
+import org.jetbrains.kotlinx.multik.api.linalg.dot
+import org.jetbrains.kotlinx.multik.api.mk
+import org.jetbrains.kotlinx.multik.api.ndarray
+import org.jetbrains.kotlinx.multik.ndarray.data.D1Array
+import org.jetbrains.kotlinx.multik.ndarray.data.D2Array
+import org.jetbrains.kotlinx.multik.ndarray.data.get
+import org.jetbrains.kotlinx.multik.ndarray.operations.plus
+import ru.ssau.ssau_graphics.lab1.model.*
 import ru.ssau.ssau_graphics.lab2.barycentric.toBarycentric
 import kotlin.math.max
 import kotlin.math.min
@@ -64,8 +69,8 @@ fun <ColorType> drawPolygonTriangleWithZ(
         round(max(max(polygon.v1.x, polygon.v2.x), polygon.v3.x)).toInt(),
     )
     val yMax = min(
-        image.height - 1,
         round(max(max(polygon.v1.y, polygon.v2.y), polygon.v3.y)).toInt(),
+        image.height - 1,
     )
 
     // 3
@@ -81,4 +86,46 @@ fun <ColorType> drawPolygonTriangleWithZ(
             }
         }
     }
+}
+
+fun Coordinate.scale(
+    k: D2Array<Double>,
+    t: D1Array<Double>,
+): Coordinate {
+    val xyz = mk.ndarray(mk[x, y, z])
+    val right = (xyz + t).transpose()
+    val result = (k dot right).transpose()
+    return Coordinate(
+        x = result[0],
+        y = result[1],
+        z = result[2],
+    )
+}
+
+// 15. Проективное преобразование
+fun PolygonalModel.prepare(
+    h: Int,
+    w: Int,
+    ax: Double,
+    ay: Double,
+    tList: List<Double>,
+): PolygonalModel {
+    val u0 = w / 2.0 // x центр
+    val v0 = h / 2.0 // y центр
+    val k = mk.ndarray(mk[
+        mk[ax, 0.0, u0],
+        mk[0.0, ay, v0],
+        mk[0.0, 0.0, 1.0],
+    ])
+    val t = mk.ndarray(tList)
+
+    return PolygonalModel(
+        polygons = polygons.map { polygon ->
+            Polygon(
+                polygon.v1.scale(k, t),
+                polygon.v2.scale(k, t),
+                polygon.v3.scale(k, t),
+            )
+        },
+    )
 }
