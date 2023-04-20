@@ -12,10 +12,10 @@ import kotlin.math.abs
 
 fun main() {
     val modelName = "model_1.obj"
-    val h = 1000
-    val w = 1000
+    val h = 1500
+    val w = 1500
     val model = readPolygonalModelFromFile(modelName)
-        .prepare(h, w, 10000.0, 10000.0, listOf(0.005, -0.045, 15.0)) // масштабирование
+        .prepare(10000.0, 10000.0, 40.0, 40.0, listOf(0.005, -0.045, 15.0)) // масштабирование
     task15n2(model, h, w)
 }
 

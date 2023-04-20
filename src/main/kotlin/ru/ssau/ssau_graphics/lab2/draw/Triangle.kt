@@ -104,14 +104,12 @@ fun Coordinate.scale(
 
 // 15. Проективное преобразование
 fun PolygonalModel.prepare(
-    h: Int,
-    w: Int,
     ax: Double,
     ay: Double,
+    u0: Double,
+    v0: Double,
     tList: List<Double>,
 ): PolygonalModel {
-    val u0 = w / 2.0 // x центр
-    val v0 = h / 2.0 // y центр
     val k = mk.ndarray(mk[
         mk[ax, 0.0, u0],
         mk[0.0, ay, v0],
