@@ -9,9 +9,7 @@ import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.operations.plus
 import ru.ssau.ssau_graphics.lab1.model.*
 import ru.ssau.ssau_graphics.lab2.barycentric.toBarycentric
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.round
+import kotlin.math.*
 
 fun <ColorType> drawPolygonTriangle(
     image: Image<ColorType>,
@@ -123,6 +121,51 @@ fun PolygonalModel.prepare(
                 polygon.v1.scale(k, t),
                 polygon.v2.scale(k, t),
                 polygon.v3.scale(k, t),
+            )
+        },
+    )
+}
+
+fun Coordinate.pivot(
+    rotate: D2Array<Double>,
+): Coordinate {
+    val xyz = mk.ndarray(mk[x, y, z])
+    val newXYZ = rotate dot xyz.transpose()
+    return Coordinate(
+        x = newXYZ[0],
+        y = newXYZ[1],
+        z = newXYZ[2],
+    )
+}
+
+// 16. Поворот модели
+fun PolygonalModel.pivot(
+    alphaDegree: Double,
+    betaDegree: Double,
+    gammaDegree: Double,
+): PolygonalModel {
+    val alpha = Math.toRadians(alphaDegree)
+    val beta = Math.toRadians(betaDegree)
+    val gamma = Math.toRadians(gammaDegree)
+    val rotate = mk.ndarray(mk[
+        mk[1.0, 0.0, 0.0],
+        mk[0.0, cos(alpha), sin(alpha)],
+        mk[0.0, -sin(alpha), cos(alpha)],
+    ]) dot mk.ndarray(mk[
+        mk[cos(beta), 0.0, sin(beta)],
+        mk[0.0, 1.0, 0.0],
+        mk[-sin(beta), 0.0, cos(beta)],
+    ]) dot mk.ndarray(mk[
+        mk[cos(gamma), sin(gamma), 0.0],
+        mk[-sin(gamma), cos(gamma), 0.0],
+        mk[0.0, 0.0, 1.0],
+    ])
+    return PolygonalModel(
+        polygons = polygons.map { polygon ->
+            Polygon(
+                polygon.v1.pivot(rotate),
+                polygon.v2.pivot(rotate),
+                polygon.v3.pivot(rotate),
             )
         },
     )

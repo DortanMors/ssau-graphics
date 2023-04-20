@@ -10,19 +10,16 @@ import kotlin.math.sqrt
 
 typealias Matrix = List<List<Double>>
 
-fun findNormal(polygon: Polygon): Coordinate {
-    val a = Coordinate(
-        polygon.v2.x - polygon.v1.x,
-        polygon.v2.y - polygon.v1.y,
-        polygon.v2.z - polygon.v1.z,
-    )
-    val b = Coordinate(
-        polygon.v2.x - polygon.v3.x,
-        polygon.v2.y - polygon.v3.y,
-        polygon.v2.z - polygon.v3.z,
-    )
-    return vectorMult(a, b)
-}
+fun findNormal(polygon: Polygon): Coordinate =
+    polygon.run {
+        val vector1 = Coordinate(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z)
+        val vector2 = Coordinate(v3.x - v1.x, v3.y - v1.y, v3.z - v1.z)
+        Coordinate(
+            -vector1.y * vector2.z + vector1.z * vector2.y,
+            -vector1.z * vector2.x + vector1.x * vector2.z,
+            -vector1.x * vector2.y + vector1.y * vector2.x,
+        )
+    }
 
 fun vectorMult(a: Coordinate, b: Coordinate): Coordinate =
     Coordinate(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x)
