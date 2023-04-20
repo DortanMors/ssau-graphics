@@ -96,9 +96,9 @@ fun Coordinate.scale(
     val right = (xyz + t).transpose()
     val result = (k dot right).transpose()
     return Coordinate(
-        x = result[0],
-        y = result[1],
-        z = result[2],
+        x = result[0] / result[2],
+        y = result[1] / result[2],
+        z = z * 3000,
     )
 }
 
