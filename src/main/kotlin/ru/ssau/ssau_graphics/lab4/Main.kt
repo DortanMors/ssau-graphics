@@ -13,11 +13,11 @@ import kotlin.math.abs
 
 fun main() {
     val modelName = "model_1.obj"
-    val h = 1500
-    val w = 1500
+    val h = 2500
+    val w = 2500
     val model = readPolygonalModelFromFile(modelName)
         .pivot(0.0, 180.0, 0.0)
-        .prepare(100000.0, 100000.0, 800.0, 1000.0, listOf(0.005, -0.045, 15.0)) // масштабирование
+        .prepare(100000.0, 100000.0, 400.0, 400.0, listOf(0.005, -0.045, 15.0)) // масштабирование
     task15n2(model, h, w)
     task16n1(model, h, w)
 }
@@ -47,7 +47,7 @@ fun task15n2(model: PolygonalModel, h: Int, w: Int) {
 fun task16n1(model: PolygonalModel, h: Int, w: Int) {
     val image = createImage3(h, w)
     val zMatrix = Image(h, w, Array(h * w) { Double.POSITIVE_INFINITY })
-    val lightDirection = Coordinate(0.0, 1.0, 1.0)
+    val lightDirection = Coordinate(1.0, 0.0, 1.0)
     model.polygons
         .filter { polygon -> normalizedScalarMult(findNormal(polygon), lightDirection) > 0 } // отсеивание задней стороны
         .forEach { polygon ->
