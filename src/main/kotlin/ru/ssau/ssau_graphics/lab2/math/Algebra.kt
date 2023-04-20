@@ -15,9 +15,9 @@ fun findNormal(polygon: Polygon): Coordinate =
         val vector1 = Coordinate(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z)
         val vector2 = Coordinate(v3.x - v1.x, v3.y - v1.y, v3.z - v1.z)
         Coordinate(
-            -vector1.y * vector2.z + vector1.z * vector2.y,
-            -vector1.z * vector2.x + vector1.x * vector2.z,
-            -vector1.x * vector2.y + vector1.y * vector2.x,
+            vector1.y * vector2.z - vector1.z * vector2.y,
+            vector1.z * vector2.x - vector1.x * vector2.z,
+            vector1.x * vector2.y - vector1.y * vector2.x,
         )
     }
 
@@ -27,11 +27,8 @@ fun vectorMult(a: Coordinate, b: Coordinate): Coordinate =
 val Coordinate.length
     get() = sqrt(x * x + y * y + z * z)
 
-fun normalizedScalarMult(left: Coordinate, right: Coordinate): Double {
-    val a = mk.ndarray(mk[left.x, left.y, left.z])
-    val b = mk.ndarray(mk[right.x, right.y, right.z])
-    return a.dot(b) / (left.length * right.length)
-}
+fun normalizedScalarMult(left: Coordinate, right: Coordinate): Double =
+    (left.x * right.x + left.y * right.y + left.z * right.z) / (left.length * right.length)
 
 operator fun Matrix.times(right: Matrix): Matrix {
     val result = mk.ndarray(this) dot mk.ndarray(right)
