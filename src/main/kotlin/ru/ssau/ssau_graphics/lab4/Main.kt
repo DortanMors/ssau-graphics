@@ -27,7 +27,7 @@ fun task15n2(model: PolygonalModel, h: Int, w: Int) {
     val zMatrix = Image(h, w, Array(h * w) { Double.POSITIVE_INFINITY })
     val lightDirection = Coordinate(1.0, 0.0, 1.0)
     model.polygons
-        .filter { polygon -> normalizedScalarMult(findNormal(polygon), lightDirection) < 0 } // отсеивание задней стороны
+        .filter { polygon -> normalizedScalarMult(findNormal(polygon), lightDirection) > 0 } // отсеивание задней стороны
         .forEach { polygon ->
             val shadow = abs(normalizedScalarMult(findNormal(polygon), lightDirection))
             drawPolygonTriangleWithZ(
