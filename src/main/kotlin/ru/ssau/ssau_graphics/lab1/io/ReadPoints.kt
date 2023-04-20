@@ -74,12 +74,12 @@ fun readModelFromFile(coordinates: List<Coordinate>, filename: String): Polygona
                 words.clear()
             }
             line.startsWith(NormalPrefix) -> {
-                val (x, y, z) = line.split(" ").apply { drop(1) }.map { it.toDouble() }
+                val (x, y, z) = line.split(" ").drop(1).map { it.toDouble() }
                 normals.add(Coordinate(x, y, z))
             }
         }
     }
-    return PolygonalModel(polygons, normals.toTypedArray())
+    return PolygonalModel(polygons, normals)
 }
 
 fun readPolygonalModelFromFile(filename: String): PolygonalModel =

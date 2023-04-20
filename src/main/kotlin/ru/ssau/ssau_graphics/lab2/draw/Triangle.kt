@@ -51,7 +51,7 @@ fun <ColorType> drawPolygonTriangleWithZ(
     zImage: Image<Double>,
     polygon: Polygon,
     color: ColorType,
-    guroNormal: Coordinate? = null
+    guroNormal: Coordinate? = null,
 ) {
     // 1-2 Ограничивающий прямоугольник:
     val xMin = max(
@@ -116,7 +116,7 @@ fun PolygonalModel.prepare(
     ])
     val t = mk.ndarray(tList)
 
-    return PolygonalModel(
+    return copy(
         polygons = polygons.map { polygon ->
             Polygon(
                 polygon.v1.scale(k, t),
@@ -161,7 +161,7 @@ fun PolygonalModel.pivot(
         mk[-sin(gamma), cos(gamma), 0.0],
         mk[0.0, 0.0, 1.0],
     ])
-    return PolygonalModel(
+    return copy(
         polygons = polygons.map { polygon ->
             Polygon(
                 polygon.v1.pivot(rotate),
