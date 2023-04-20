@@ -16,7 +16,7 @@ fun main() {
     val h = 1500
     val w = 1500
     val model = readPolygonalModelFromFile(modelName)
-        .pivot(0.0, 0.0, 0.0)
+        .pivot(0.0, 180.0, 0.0)
         .prepare(100000.0, 100000.0, 800.0, 1000.0, listOf(0.005, -0.045, 15.0)) // масштабирование
     task15n2(model, h, w)
     task16n1(model, h, w)
