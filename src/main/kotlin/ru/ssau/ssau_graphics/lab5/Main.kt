@@ -24,19 +24,18 @@ fun main() {
 fun task17n1(model: PolygonalModel, h: Int, w: Int) {
     val image = createImage3(h, w)
     val zMatrix = Image(h, w, Array(h * w) { Double.POSITIVE_INFINITY })
-    val lightDirection = Coordinate(1.0, 0.0, 1.0)
+    val lightDirection = Coordinate(0.0, 0.0, 1.0)
     model.polygons
         .filter { polygon -> normalizedScalarMult(findNormal(polygon), lightDirection) > 0 } // отсеивание задней стороны
         .forEach { polygon ->
-            val shadow = abs(normalizedScalarMult(findNormal(polygon), lightDirection))
             drawPolygonTriangleWithZ(
                 image,
                 zMatrix,
                 polygon,
                 Color3(
-                    0,
                     255,
-                    0,
+                    255,
+                    255,
                 ),
                 light = lightDirection,
             ) // отрисовка полигона с z-буффером

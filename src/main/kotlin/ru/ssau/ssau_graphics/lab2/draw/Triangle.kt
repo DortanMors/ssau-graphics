@@ -9,6 +9,8 @@ import org.jetbrains.kotlinx.multik.ndarray.data.get
 import org.jetbrains.kotlinx.multik.ndarray.operations.plus
 import ru.ssau.ssau_graphics.lab1.model.*
 import ru.ssau.ssau_graphics.lab2.barycentric.toBarycentric
+import ru.ssau.ssau_graphics.lab2.math.dot
+import ru.ssau.ssau_graphics.lab2.math.length
 import kotlin.math.*
 
 fun <ColorType> drawPolygonTriangle(
@@ -46,12 +48,12 @@ fun <ColorType> drawPolygonTriangle(
     }
 }
 
-fun <ColorType> drawPolygonTriangleWithZ(
+fun <ColorType : Color> drawPolygonTriangleWithZ(
     image: Image<ColorType>,
     zImage: Image<Double>,
     polygon: Polygon,
     color: ColorType,
-    guroNormal: Coordinate? = null,
+    light: Coordinate? = null,
 ) {
     // 1-2 Ограничивающий прямоугольник:
     val xMin = max(
@@ -79,8 +81,19 @@ fun <ColorType> drawPolygonTriangleWithZ(
             if (barCords.x > 0 && barCords.y > 0 && barCords.z > 0) {
                 val zFlex = barCords.x * polygon.v1.z + barCords.y * polygon.v2.z + barCords.z * polygon.v3.z
                 if (zFlex < zImage[y, x]) {
-                    image[y, x] = color
-                    zImage[y, x] = zFlex
+                    polygon.run {
+                        val newColor = if (n1 !=null && n2 !=null && n3 != null && light != null) {
+                            val l0 = abs(n1 dot light) / (n1.length * light.length)
+                            val l1 = abs(n2 dot light) / (n2.length * light.length)
+                            val l2 = abs(n3 dot light) / (n3.length * light.length)
+                            val brightness = barCords.x * l0 + barCords.y * l1 + barCords.z * l2
+                            color.withBrightness(brightness)
+                        } else {
+                            color
+                        }
+                        image[y, x] = newColor as ColorType
+                        zImage[y, x] = zFlex
+                    }
                 }
             }
         }
@@ -118,10 +131,10 @@ fun PolygonalModel.prepare(
 
     return copy(
         polygons = polygons.map { polygon ->
-            Polygon(
-                polygon.v1.scale(k, t),
-                polygon.v2.scale(k, t),
-                polygon.v3.scale(k, t),
+            polygon.copy(
+                v1 = polygon.v1.scale(k, t),
+                v2 = polygon.v2.scale(k, t),
+                v3 = polygon.v3.scale(k, t),
             )
         },
     )
@@ -163,10 +176,10 @@ fun PolygonalModel.pivot(
     ])
     return copy(
         polygons = polygons.map { polygon ->
-            Polygon(
-                polygon.v1.pivot(rotate),
-                polygon.v2.pivot(rotate),
-                polygon.v3.pivot(rotate),
+            polygon.copy(
+                v1 = polygon.v1.pivot(rotate),
+                v2 = polygon.v2.pivot(rotate),
+                v3 = polygon.v3.pivot(rotate),
             )
         },
     )
