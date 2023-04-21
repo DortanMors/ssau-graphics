@@ -10,7 +10,7 @@ class Image<ColorType>(
     }
 
     operator fun get(row: Int, column: Int): ColorType =
-        matrix[row * width + column]
+        matrix[normalRow(row) * width + column]
 
     fun normalRow(row: Int) = (height - 1) - row
 }
