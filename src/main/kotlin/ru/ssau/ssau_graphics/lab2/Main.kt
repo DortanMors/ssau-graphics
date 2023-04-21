@@ -12,6 +12,17 @@ import ru.ssau.ssau_graphics.utils.saveImage
 import kotlin.math.abs
 import kotlin.random.Random
 
+fun main() {
+    val modelName = "model_1.obj"
+    task8n1()
+    task10n1()
+    val model = readPolygonalModelFromFile(modelName)
+    task11n1(model)
+    task13n1(model)
+    task14n1(model)
+    task15n1(model)
+}
+
 private fun task8n1() {
     val point = Point2d(1, 5)
     val polygon = Polygon(
@@ -147,15 +158,4 @@ fun task15n1(model: PolygonalModel, h: Int = 1000, w: Int = 1000, xMult: Int = 5
             ) // отрисовка полигона с z-буффером
         }
     saveImage(image, "task15n1")
-}
-
-fun main() {
-    val modelName = "model_1.obj"
-    task8n1()
-    task10n1()
-    val model = readPolygonalModelFromFile(modelName)
-    task11n1(model)
-    task13n1(model)
-    task14n1(model)
-    task15n1(model)
 }
