@@ -100,6 +100,61 @@ fun <ColorType : Color> drawPolygonTriangleWithZ(
     }
 }
 
+fun <ColorType : Color> drawPolygonTriangleWithZImproved(
+    image: Image<ColorType>,
+    zImage: Image<Double>,
+    polygon: Polygon,
+    color: ColorType,
+    k: D2Array<Double>,
+    light: Coordinate? = null,
+) {
+    val projectivePolygon = polygon.projective(k)
+
+    // 1-2 Ограничивающий прямоугольник:
+    val xMin = max(
+        0,
+        round(min(min(projectivePolygon.v1.x, projectivePolygon.v2.x), projectivePolygon.v3.x)).toInt(),
+    )
+    val yMin = max(
+        0,
+        round(min(min(projectivePolygon.v1.y, projectivePolygon.v2.y), projectivePolygon.v3.y)).toInt(),
+    )
+
+    val xMax = min(
+        image.width - 1,
+        round(max(max(projectivePolygon.v1.x, projectivePolygon.v2.x), projectivePolygon.v3.x)).toInt(),
+    )
+    val yMax = min(
+        round(max(max(projectivePolygon.v1.y, projectivePolygon.v2.y), projectivePolygon.v3.y)).toInt(),
+        image.height - 1,
+    )
+
+    // 3
+    for (x in xMin..xMax) {
+        for (y in yMin..yMax) {
+            val barCords = toBarycentric(projectivePolygon, Point2d(x, y))
+            if (barCords.x > 0 && barCords.y > 0 && barCords.z > 0) {
+                val zFlex = barCords.x * polygon.v1.z + barCords.y * polygon.v2.z + barCords.z * polygon.v3.z
+                if (zFlex < zImage[y, x]) {
+                    polygon.run {
+                        val newColor = if (n1 !=null && n2 !=null && n3 != null && light != null) {
+                            val l0 = abs(n1 dot light) / (n1.length * light.length)
+                            val l1 = abs(n2 dot light) / (n2.length * light.length)
+                            val l2 = abs(n3 dot light) / (n3.length * light.length)
+                            val brightness = barCords.x * l0 + barCords.y * l1 + barCords.z * l2
+                            color.withBrightness(brightness)
+                        } else {
+                            color
+                        }
+                        image[y, x] = newColor as ColorType
+                        zImage[y, x] = zFlex
+                    }
+                }
+            }
+        }
+    }
+}
+
 fun Coordinate.scale(
     k: D2Array<Double>,
     t: D1Array<Double>,
@@ -113,6 +168,36 @@ fun Coordinate.scale(
         z = z * 1600,
     )
 }
+
+fun Coordinate.scaleImproved(
+    t: List<Double>,
+): Coordinate {
+    return Coordinate(
+        x = x + t[0],
+        y = y + t[1],
+        z = z + t[2],
+    )
+}
+
+fun Coordinate.projective(
+    k: D2Array<Double>,
+): Point2dDouble {
+    val xyz = mk.ndarray(mk[x, y, 1.0]).transpose()
+    val result = (k dot xyz).transpose()
+    return Point2dDouble(
+        x = result[0],
+        y = result[1],
+    )
+}
+
+fun Polygon.projective(
+    k: D2Array<Double>,
+): ProjectivePolygon =
+    ProjectivePolygon(
+        v1.projective(k),
+        v2.projective(k),
+        v3.projective(k),
+    )
 
 // 15. Проективное преобразование
 fun PolygonalModel.prepare(
@@ -135,6 +220,21 @@ fun PolygonalModel.prepare(
                 v1 = polygon.v1.scale(k, t),
                 v2 = polygon.v2.scale(k, t),
                 v3 = polygon.v3.scale(k, t),
+            )
+        },
+    )
+}
+
+// 15. Проективное преобразование
+fun PolygonalModel.prepareImproved(
+    t: List<Double>,
+): PolygonalModel {
+    return copy(
+        polygons = polygons.map { polygon ->
+            polygon.copy(
+                v1 = polygon.v1.scaleImproved(t),
+                v2 = polygon.v2.scaleImproved(t),
+                v3 = polygon.v3.scaleImproved(t),
             )
         },
     )
@@ -200,4 +300,3 @@ val PolygonalModel.center: Coordinate
         y = polygons.minOf { min(min(it.v1.y, it.v2.y), it.v3.y)} + height/2,
         z = polygons.minOf { min(min(it.v1.z, it.v2.z), it.v3.z)} + depth/2,
     )
-

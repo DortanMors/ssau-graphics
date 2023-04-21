@@ -49,43 +49,6 @@ fun readModelFromFile(coordinates: List<Coordinate>, filename: String): Polygona
             n3 = vertexToNormal[2].second,
         )
     }
-//    for (line in lines) {
-//        when {
-//            line.getOrNull(0) == 'f' -> {
-//                var i: Int = 1
-//                for (k in 0..2) {
-//                    words.add("")
-//                    i++
-//                    while (line[i] != '/') { //считываем 3 слова, занося первое в words
-//                        words[k] = words[k] + line[i]
-//                        i++
-//                    }
-//                    i++ // минуем '/'
-//                    while (line[i] != '/') {
-//                        i++
-//                    }
-//                    i++ // минуем '/'
-//                    while (line[i] != ' ') {
-//                        i++
-//                        if (i == line.length) {
-//                            break
-//                        }
-//                    }
-//                }
-//                polygons.add(
-//                    Polygon(
-//                        v1 = coordinates[words[0].toInt() - 1],
-//                        v2 = coordinates[words[1].toInt() - 1],
-//                        v3 = coordinates[words[2].toInt() - 1],
-//                        n1 = normals?.getOrNull(words[0].toInt() - 1),
-//                        n2 = normals?.getOrNull(words[1].toInt() - 1),
-//                        n3 = normals?.getOrNull(words[2].toInt() - 1),
-//                    )
-//                )
-//                words.clear()
-//            }
-//        }
-//    }
     return PolygonalModel(polygons)
 }
 
