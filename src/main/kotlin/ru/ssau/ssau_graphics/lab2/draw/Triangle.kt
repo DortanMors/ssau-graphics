@@ -10,7 +10,9 @@ import org.jetbrains.kotlinx.multik.ndarray.operations.plus
 import ru.ssau.ssau_graphics.lab1.model.*
 import ru.ssau.ssau_graphics.lab2.barycentric.toBarycentric
 import ru.ssau.ssau_graphics.lab2.math.dot
+import ru.ssau.ssau_graphics.lab2.math.findNormal
 import ru.ssau.ssau_graphics.lab2.math.length
+import ru.ssau.ssau_graphics.lab2.math.normalizedScalarMult
 import kotlin.math.*
 
 fun <ColorType> drawPolygonTriangle(
@@ -137,15 +139,17 @@ fun <ColorType : Color> drawPolygonTriangleWithZImproved(
                 val zFlex = barCords.x * polygon.v1.z + barCords.y * polygon.v2.z + barCords.z * polygon.v3.z
                 if (zFlex < zImage[y, x]) {
                     polygon.run {
-                        val newColor = if (n1 !=null && n2 !=null && n3 != null && light != null) {
-                            val l0 = abs(n1 dot light) / (n1.length * light.length)
-                            val l1 = abs(n2 dot light) / (n2.length * light.length)
-                            val l2 = abs(n3 dot light) / (n3.length * light.length)
-                            val brightness = barCords.x * l0 + barCords.y * l1 + barCords.z * l2
-                            color.withBrightness(brightness)
-                        } else {
-                            color
-                        }
+                        val brightness = light?.let {
+                            if (n1 !=null && n2 !=null && n3 != null) {
+                                val l0 = abs(n1 dot light) / (n1.length * light.length)
+                                val l1 = abs(n2 dot light) / (n2.length * light.length)
+                                val l2 = abs(n3 dot light) / (n3.length * light.length)
+                                barCords.x * l0 + barCords.y * l1 + barCords.z * l2
+                            } else {
+                                abs(normalizedScalarMult(findNormal(polygon), light))
+                            }
+                        } ?: 1.0
+                        val newColor = color.withBrightness(brightness)
                         image[y, x] = newColor as ColorType
                         zImage[y, x] = zFlex
                     }
