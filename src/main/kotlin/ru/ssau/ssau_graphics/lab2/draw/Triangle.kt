@@ -184,3 +184,20 @@ fun PolygonalModel.pivot(
         },
     )
 }
+
+val PolygonalModel.width: Double
+    get() = polygons.maxOf { max(max(it.v1.x, it.v2.x), it.v3.x) } - polygons.minOf { min(min(it.v1.x, it.v2.x), it.v3.x) }
+
+val PolygonalModel.height: Double
+    get() = polygons.maxOf { max(max(it.v1.y, it.v2.y), it.v3.y) } - polygons.minOf { min(min(it.v1.y, it.v2.y), it.v3.y) }
+
+val PolygonalModel.depth: Double
+    get() = polygons.maxOf { max(max(it.v1.z, it.v2.z), it.v3.z) } - polygons.minOf { min(min(it.v1.z, it.v2.z), it.v3.z) }
+
+val PolygonalModel.center: Coordinate
+    get() = Coordinate(
+        x = polygons.minOf { min(min(it.v1.x, it.v2.x), it.v3.x)} + width/2,
+        y = polygons.minOf { min(min(it.v1.y, it.v2.y), it.v3.y)} + height/2,
+        z = polygons.minOf { min(min(it.v1.z, it.v2.z), it.v3.z)} + depth/2,
+    )
+
