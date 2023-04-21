@@ -16,7 +16,7 @@ fun main() {
     val h = 5000
     val w = 5000
     val model = readPolygonalModelFromFile(modelName)
-        .pivot(0.0, 180.0, 180.0)
+        .pivot(0.0, 180.0, 0.0)
     // масштабирование
     // коэффициент соотношения центра модели с центром изображения
     val scaling = min(h/model.height, w/model.width)

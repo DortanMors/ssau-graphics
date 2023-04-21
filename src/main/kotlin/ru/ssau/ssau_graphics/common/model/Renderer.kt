@@ -17,7 +17,7 @@ class Renderer(
         )
         for (row in 0 until image.height) {
             for (column in 0 until image.width) {
-                image[row, column].run {
+                image.getNotInversed(row, column).run {
                     bufferedImage.setRGB(
                         column,
                         row,
@@ -38,7 +38,7 @@ class Renderer(
         )
         for (row in 0 until image.height) {
             for (column in 0 until image.width) {
-                image[row, column].run {
+                image.getNotInversed(row, column).run {
                     bufferedImage.setRGB(
                         column,
                         row,
