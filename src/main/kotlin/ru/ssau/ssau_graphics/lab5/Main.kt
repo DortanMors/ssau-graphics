@@ -9,16 +9,26 @@ import ru.ssau.ssau_graphics.lab2.math.findNormal
 import ru.ssau.ssau_graphics.lab2.math.normalizedScalarMult
 import ru.ssau.ssau_graphics.utils.createImage3
 import ru.ssau.ssau_graphics.utils.saveImage
+import kotlin.math.min
 
 fun main() {
     val modelName = "model_1.obj"
-    val h = 1000
-    val w = 1000
+    val h = 5000
+    val w = 5000
     val model = readPolygonalModelFromFile(modelName)
-        .pivot(0.0, 0.0, 0.0)
-        .prepareImproved(listOf(0.005, -0.045, 0.3)) // масштабирование
-    task17n1(model, h, w, 2000.0, 2000.0, 400.0, 400.0,)
+        .pivot(0.0, 180.0, 180.0)
+    // масштабирование
+    // коэффициент соотношения центра модели с центром изображения
+    val scaling = min(h/model.height, w/model.width)
+    val c = model.center
+    // расстояние между центрами увеличенной модели и изображения
+    val deltaX = (w/2 - c.x * scaling)
+    val deltaY = (h/2 - c.y * scaling)
+
+    task17n1(model, h, w, scaling, scaling, deltaX, deltaY,)
 }
+
+
 
 fun task17n1(model: PolygonalModel, h: Int, w: Int, ax: Double, ay: Double, u0: Double, v0: Double) {
     val image = createImage3(h, w)
