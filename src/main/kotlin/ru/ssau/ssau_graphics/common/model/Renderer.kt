@@ -1,4 +1,4 @@
-package ru.ssau.ssau_graphics.model
+package ru.ssau.ssau_graphics.common.model
 
 import java.awt.Color
 import java.awt.image.BufferedImage
@@ -17,7 +17,7 @@ class Renderer(
         )
         for (row in 0 until image.height) {
             for (column in 0 until image.width) {
-                image[row, column].run {
+                image.getNotInversed(row, column).run {
                     bufferedImage.setRGB(
                         column,
                         row,
@@ -38,7 +38,7 @@ class Renderer(
         )
         for (row in 0 until image.height) {
             for (column in 0 until image.width) {
-                image[row, column].run {
+                image.getNotInversed(row, column).run {
                     bufferedImage.setRGB(
                         column,
                         row,
