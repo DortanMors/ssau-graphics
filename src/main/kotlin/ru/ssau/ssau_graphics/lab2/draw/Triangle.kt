@@ -186,3 +186,4 @@ val PolygonalModel.center: Coordinate
         y = polygons.minOf { min(min(it.v1.y, it.v2.y), it.v3.y)} + height/2,
         z = polygons.minOf { min(min(it.v1.z, it.v2.z), it.v3.z)} + depth/2,
     )
+
