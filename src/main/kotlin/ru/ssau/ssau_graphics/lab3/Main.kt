@@ -73,7 +73,7 @@ fun task13n1(model: PolygonalModel, h: Int = 1000, w: Int = 1000, xMult: Int = 5
 // z-буффер
 fun task14n1(model: PolygonalModel, h: Int = 1000, w: Int = 1000, xMult: Int = 5000, xDelta: Int = 500, yMult: Int = 5000, yDelta: Int = 500) {
     val image = createImage3(h, w)
-    val zMatrix = Image(h, w, Array(h * w) { 10000.0 })
+    val zMatrix = Image(h, w, Array(h * w) { Double.POSITIVE_INFINITY })
     val lightDirection = Coordinate(1.0, 0.0, 0.4)
     model.polygons
         .filter { polygon ->

@@ -14,6 +14,24 @@ import kotlin.math.cos
 import kotlin.math.round
 import kotlin.math.sin
 
+fun main() {
+    task1n1(100, 100)
+    task1n2(100, 100)
+    task1n3(100, 100)
+    task1n4(1024, 1024)
+
+    task2n1(256, 256, 0.01)
+    task2n2(200, 200, 0.01)
+    task2n3(200, 200)
+    task2n4(200, 200)
+    task2n5(200, 200)
+
+    val coordinates = task3("model_1.obj")
+    task4(1000, 1000, coordinates, Color3(255, 255, 255))
+    val model = task5n1("model_1.obj", coordinates)
+    task6(1000, 1000, model, Color3(255, 255, 255))
+}
+
 private fun task1n1(h: Int, w: Int) {
     val image = Image(
         height = h,
@@ -151,24 +169,6 @@ private fun task6(h: Int, w: Int, model: PolygonalModel, color: Color3) {
         )
     }
     saveImage(image, "task6")
-}
-
-fun main() {
-    task1n1(100, 100)
-    task1n2(100, 100)
-    task1n3(100, 100)
-    task1n4(1024, 1024)
-
-    task2n1(256, 256, 0.01)
-    task2n2(200, 200, 0.01)
-    task2n3(200, 200)
-    task2n4(200, 200)
-    task2n5(200, 200)
-
-    val coordinates = task3("model_1.obj")
-    task4(1000, 1000, coordinates, Color3(255, 255, 255))
-    val model = task5n1("model_1.obj", coordinates)
-    task6(1000, 1000, model, Color3(255, 255, 255))
 }
 
 private fun <ColorType> Image<ColorType>.drawSun(
