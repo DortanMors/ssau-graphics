@@ -2,6 +2,7 @@ package ru.ssau.ssau_graphics.common.barycentric
 
 import ru.ssau.ssau_graphics.common.model.*
 
+// Вычисление барицентрических координат для трёхмерного полигона
 fun toBarycentric(polygon: Polygon, point: Point2d): Coordinate =
     polygon.run {
         val lambda0 = ((v2.x - v3.x) * (point.y - v3.y) - (v2.y - v3.y) * (point.x - v3.x)) / ((v2.x - v3.x)*(v1.y - v3.y) - (v2.y - v3.y) * (v1.x - v3.x))
@@ -10,6 +11,7 @@ fun toBarycentric(polygon: Polygon, point: Point2d): Coordinate =
         Coordinate(lambda0, lambda1, lambda2)
     }
 
+// Вычисление барицентрических координат для проекции полигона
 fun toBarycentric(polygon: ProjectivePolygon, point: Point2d): Coordinate =
     polygon.run {
         val lambda0 = ((v2.x - v3.x) * (point.y - v3.y) - (v2.y - v3.y) * (point.x - v3.x)) / ((v2.x - v3.x)*(v1.y - v3.y) - (v2.y - v3.y) * (v1.x - v3.x))
