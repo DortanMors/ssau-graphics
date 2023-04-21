@@ -2,13 +2,13 @@ package ru.ssau.ssau_graphics.lab5
 
 import org.jetbrains.kotlinx.multik.api.mk
 import org.jetbrains.kotlinx.multik.api.ndarray
-import ru.ssau.ssau_graphics.lab1.io.readPolygonalModelFromFile
-import ru.ssau.ssau_graphics.lab1.model.*
-import ru.ssau.ssau_graphics.lab2.draw.*
-import ru.ssau.ssau_graphics.lab2.math.findNormal
-import ru.ssau.ssau_graphics.lab2.math.normalizedScalarMult
-import ru.ssau.ssau_graphics.utils.createImage3
-import ru.ssau.ssau_graphics.utils.saveImage
+import ru.ssau.ssau_graphics.common.draw.*
+import ru.ssau.ssau_graphics.common.io.readPolygonalModelFromFile
+import ru.ssau.ssau_graphics.common.model.*
+import ru.ssau.ssau_graphics.common.math.findNormal
+import ru.ssau.ssau_graphics.common.math.normalizedScalarMult
+import ru.ssau.ssau_graphics.common.utils.createImage3
+import ru.ssau.ssau_graphics.common.utils.saveImage
 import kotlin.math.min
 
 fun main() {

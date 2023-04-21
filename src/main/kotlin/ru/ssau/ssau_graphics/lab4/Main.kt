@@ -1,14 +1,14 @@
 package ru.ssau.ssau_graphics.lab4
 
-import ru.ssau.ssau_graphics.lab1.io.readPolygonalModelFromFile
-import ru.ssau.ssau_graphics.lab1.model.*
-import ru.ssau.ssau_graphics.lab2.draw.drawPolygonTriangleWithZ
-import ru.ssau.ssau_graphics.lab2.draw.pivot
-import ru.ssau.ssau_graphics.lab2.draw.prepare
-import ru.ssau.ssau_graphics.lab2.math.findNormal
-import ru.ssau.ssau_graphics.lab2.math.normalizedScalarMult
-import ru.ssau.ssau_graphics.utils.createImage3
-import ru.ssau.ssau_graphics.utils.saveImage
+import ru.ssau.ssau_graphics.common.io.readPolygonalModelFromFile
+import ru.ssau.ssau_graphics.common.model.*
+import ru.ssau.ssau_graphics.common.draw.drawPolygonTriangleWithZ
+import ru.ssau.ssau_graphics.common.draw.pivot
+import ru.ssau.ssau_graphics.common.draw.prepare
+import ru.ssau.ssau_graphics.common.math.findNormal
+import ru.ssau.ssau_graphics.common.math.normalizedScalarMult
+import ru.ssau.ssau_graphics.common.utils.createImage3
+import ru.ssau.ssau_graphics.common.utils.saveImage
 import kotlin.math.abs
 
 fun main() {
