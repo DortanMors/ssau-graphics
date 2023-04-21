@@ -9,14 +9,34 @@ import ru.ssau.ssau_graphics.common.math.findNormal
 import ru.ssau.ssau_graphics.common.math.normalizedScalarMult
 import ru.ssau.ssau_graphics.common.utils.createImage3
 import ru.ssau.ssau_graphics.common.utils.saveImage
+import java.util.*
 import kotlin.math.min
+import kotlin.system.exitProcess
 
 fun main() {
-    val modelName = "model_1.obj"
-    val h = 5000
-    val w = 5000
-    val model = readPolygonalModelFromFile(modelName)
-        .pivot(0.0, 180.0, 0.0)
+    val scanner = Scanner(System.`in`)
+    print("Введите имя файла с моделью: ")
+    val filename = scanner.nextLine()
+
+    print("Введите высоту изображения: ")
+    val h = scanner.nextInt()
+    checkInput(h > 0, "Высота должна быть положительным числом")
+
+    print("Введите ширину изображения: ")
+    val w = scanner.nextInt()
+    checkInput(w > 0, "Ширина должна быть положительным числом")
+
+    print("Введите угол поворота вокруг оси X (в градусах): ")
+    val alpha = Math.toRadians(scanner.nextDouble())
+
+    print("Введите угол поворота вокруг оси Y (в градусах): ")
+    val beta = Math.toRadians(scanner.nextDouble())
+
+    print("Введите угол поворота вокруг оси Z (в градусах): ")
+    val gamma = Math.toRadians(scanner.nextDouble())
+
+    val model = readPolygonalModelFromFile(filename)
+        .pivot(alpha, beta, gamma) // Поворот модели
     // масштабирование
     // коэффициент соотношения центра модели с центром изображения
     val scaling = min(h/model.height, w/model.width)
@@ -25,10 +45,8 @@ fun main() {
     val deltaX = (w/2 - c.x * scaling)
     val deltaY = (h/2 - c.y * scaling)
 
-    task17n1(model, h, w, scaling, scaling, deltaX, deltaY,)
+    task17n1(model, h, w, scaling, scaling, deltaX, deltaY)
 }
-
-
 
 fun task17n1(model: PolygonalModel, h: Int, w: Int, ax: Double, ay: Double, u0: Double, v0: Double) {
     val image = createImage3(h, w)
@@ -55,4 +73,11 @@ fun task17n1(model: PolygonalModel, h: Int, w: Int, ax: Double, ay: Double, u0: 
             ) // отрисовка полигона с z-буффером
         }
     saveImage(image, "task17n1")
+}
+
+fun checkInput(condition: Boolean, message: String) {
+    if (!condition) {
+        println(message)
+        exitProcess(1)
+    }
 }
